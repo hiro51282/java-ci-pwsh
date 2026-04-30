@@ -1,0 +1,11 @@
+{
+  "env": {
+    "repo": "https://github.com/hiro51282/java-ci-sample",
+    "workspace": "./workspace"
+  },
+  "run": {
+    "success": "src/Success.java",
+    "fail": "src/Fail.java",
+    "logDir": "./logs"
+  }
+}

@@ -1,0 +1,41 @@
+name: Java CI Minimal
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ① このリポジトリを取得（scriptsとかdefine.jsonがある側）
+      - name: Checkout CI repo
+        uses: actions/checkout@v4
+
+      # ② Java環境を用意（javac使えるようにする）
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # ③ env（サンプルrepoをclone）
+      - name: Setup Environment
+        shell: pwsh
+        run: |
+          ./scripts/env.ps1
+
+      # ④ run（コンパイル＆検証）
+      - name: Run Build
+        shell: pwsh
+        run: |
+          ./scripts/run.ps1
+
+      # ⑤ ログを保存（後でダウンロードできる）
+      - name: Upload Logs
+        if: always()   # 成功でも失敗でも必ず実行
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: logs/
